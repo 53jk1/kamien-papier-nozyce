@@ -1,0 +1,102 @@
+/*  selektor uniwersalny - ma zastosowanie do całego dokumentu  */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background: #000000;
+    color:aliceblue;
+}
+/* Aby wyśrodkować wszystko w grze */
+.game{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+ 
+/* Tytuł gry */
+.title{
+    position: absolute;
+    top: 0;
+    font-size: 4rem;
+    z-index: 2;
+}
+ 
+/* Tablica wyników */
+.score{
+    display: flex;
+    width: 30vw;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 70px;
+    z-index: 1;
+    margin: 70px;
+}
+ 
+/* Wynik */
+.p-count,.c-count{
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+ 
+/* Wyświetlanie trzech przycisków w jednym wierszu */
+.options{
+    display: flex;
+    width: 50vw;
+    justify-content: space-evenly;
+    margin-top: 2rem;
+}
+ 
+/* Stylizacja wszystkich trzech przycisków */
+.kamień, .papier, .nożyce{
+    padding: 0.8rem;
+    width: 100px;
+    border-radius: 10px;
+    background: yellow;
+    outline: none;
+    border-color: black;
+    border: none;
+    cursor: pointer;
+    color:#000000;
+}
+ 
+.move{
+    font-size: 2rem;
+    font-weight: bold;
+}
+ 
+/* Styl przycisku przeładowania */
+.reload {
+    display: none;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: green;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+ 
+.result{
+    margin-top: 20px;
+    font-size: 1.2rem;
+}
+ 
+/* Projektowanie responsywne */
+@media screen and (max-width: 612px)
+{ 
+    .title{
+        text-align: center;
+    }
+    .score{
+        position: absolute;
+        top: 200px;
+        width: 100vw;
+    }
+    .options{
+        width: 100vw;
+    }
+}
