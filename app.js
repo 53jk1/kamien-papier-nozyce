@@ -1,52 +1,130 @@
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>🪨📜✂️</title>
-</head>
-<body>
-    <section class="game">
-        <!-- Tytuł -->
-        <div class="title">🪨📜✂️</div>
-         
-          <!-- Wyświetlanie wyników gracza i komputera -->
-        <div class="score"> 
-            <div class="playerScore">
-                <h2>Gracz</h2>
-                <p class="p-count count">0</p>
+// Pełna logika gry w tej funkcji
+const game = () => {
+    let playerScore = 0;
+    let computerScore = 0;
+    let moves = 0;
  
-            </div>      
-            <div class="computerScore">
-                <h2>Komputer</h2>
-                <p class="c-count count">0</p>
  
-            </div>
-        </div>
-       
-        <div class="move">Wybierz swój ruch</div>
+    // Funkcja do
+    const playGame = () => {
+        const rockBtn = document.querySelector('.kamień');
+        const paperBtn = document.querySelector('.papier');
+        const scissorBtn = document.querySelector('.nożyce');
+        const playerOptions = [rockBtn,paperBtn,scissorBtn];
+        const computerOptions = ['kamień','papier','nożyce']
          
-          <!-- Liczba ruchów pozostałych do zakończenia gry -->
-        <div class="movesleft">Pozostałe ruchy: 10 </div>
-         
-          <!-- Opcje dostępne dla gracza w grze -->
-        <div class="options">
-            <button class="kamień">Kamień</button>
-            <button class="papier">Papier</button>
-            <button class="nożyce">Nożyce</button>   
-        </div>
-         
-          <!-- Ostateczny wynik gry -->
-        <div class="result"></div>
-         
-          <!-- Przeładuj grę -->
-        <button class="reload"></button>
+        // Funkcja umożliwiająca rozpoczęcie gry
+        playerOptions.forEach(option => {
+            option.addEventListener('click',function(){
  
-    </section>
+                const movesLeft = document.querySelector('.movesleft');
+                moves++;
+                movesLeft.innerText = `Pozostałe ruchy: ${10-moves}`;
+                 
  
-    <script src="app.js"></script>
-</body>
-</html>
+                const choiceNumber = Math.floor(Math.random()*3);
+                const computerChoice = computerOptions[choiceNumber];
+ 
+                // Funkcja umożliwiająca sprawdzenie, kto wygrał
+                winner(this.innerText,computerChoice)
+                 
+                // Wywołanie funkcji gameOver po 10 ruchach
+                if(moves == 10){
+                    gameOver(playerOptions,movesLeft);
+                }
+            })
+        })
+         
+    }
+ 
+    // Funkcja wyłaniania zwycięzcy
+    const winner = (player,computer) => {
+        const result = document.querySelector('.result');
+        const playerScoreBoard = document.querySelector('.p-count');
+        const computerScoreBoard = document.querySelector('.c-count');
+        player = player.toLowerCase();
+        computer = computer.toLowerCase();
+        if(player === computer){
+            result.textContent = 'Remis'
+        }
+        else if(player == 'kamień'){
+            if(computer == 'papier'){
+                result.textContent = 'Komputer Wygrał';
+                computerScore++;
+                computerScoreBoard.textContent = computerScore;
+ 
+            }else{
+                result.textContent = 'Gracz Wygrał'
+                playerScore++;
+                playerScoreBoard.textContent = playerScore;
+            }
+        }
+        else if(player == 'nożyce'){
+            if(computer == 'kamień'){
+                result.textContent = 'Komputer Wygrał!';
+                computerScore++;
+                computerScoreBoard.textContent = computerScore;
+            }else{
+                result.textContent = 'Gracz Wygrał!';
+                playerScore++;
+                playerScoreBoard.textContent = playerScore;
+            }
+        }
+        else if(player == 'papier'){
+            if(computer == 'nożyce'){
+                result.textContent = 'Komputer Wygrał!';
+                computerScore++;
+                computerScoreBoard.textContent = computerScore;
+            }else{
+                result.textContent = 'Gracz Wygrał!';
+                playerScore++;
+                playerScoreBoard.textContent = playerScore;
+            }
+        }
+    }
+ 
+    // Funkcja uruchamiania po zakończeniu gry
+    const gameOver = (playerOptions,movesLeft) => {
+ 
+        const chooseMove = document.querySelector('.move');
+        const result = document.querySelector('.result');
+        const reloadBtn = document.querySelector('.reload');
+ 
+        playerOptions.forEach(option => {
+            option.style.display = 'none';
+        })
+ 
+      
+        chooseMove.innerText = 'Koniec Gry!!'
+        movesLeft.style.display = 'none';
+ 
+        if(playerScore > computerScore){
+            result.style.fontSize = '2rem';
+            result.innerText = 'Wygrałeś grę!'
+            result.style.color = '#308D46';
+        }
+        else if(playerScore < computerScore){
+            result.style.fontSize = '2rem';
+            result.innerText = 'Przegrałeś grę!';
+            result.style.color = 'red';
+        }
+        else{
+            result.style.fontSize = '2rem';
+            result.innerText = 'Remis';
+            result.style.color = 'grey'
+        }
+        reloadBtn.innerText = 'Restart';
+        reloadBtn.style.display = 'flex'
+        reloadBtn.addEventListener('click',() => {
+            window.location.reload();
+        })
+    }
+ 
+ 
+    // Wywołanie funkcji playGame wewnątrz gry
+    playGame();
+     
+}
+ 
+// Wywołanie funkcji gry
+game();
